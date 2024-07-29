@@ -1,0 +1,25 @@
+name: Temporary Link Expiration
+
+on:
+  schedule:
+    - cron: '*/1 * * * *' # Runs every minute
+
+jobs:
+  check-expiration:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Check Expiration
+        run: |
+          # Define expiration time (e.g., 20 seconds from script start)
+          EXPIRATION_TIME=$(date -d "+20 seconds" +%s)
+          CURRENT_TIME=$(date +%s)
+
+          if [ $CURRENT_TIME -gt $EXPIRATION_TIME ]; then
+            echo "Link has expired!"
+            # You can modify this part to handle expired links
+          else
+            echo "Link is still active."
+          fi
